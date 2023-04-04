@@ -1,16 +1,17 @@
 <template>
-  <div class="home">
-    
+  <div class="home flex justify-center">
+    <SearchForm></SearchForm>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-// import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import SearchForm from '@/components/SearchForm.vue'; // @ is an alias to /src
 
 export default defineComponent({
   name: 'HomeView',
   components: {
+    SearchForm
   },
 });
 </script>
