@@ -1,6 +1,8 @@
 <template>
   <div class="flex flex-col search-box justify-start items-start">
-    <h3><b>Search your prefered area based on a criteria</b></h3>
+    <div>
+      <h3><b>Search your prefered area based on a criteria</b></h3>
+    </div>
     <div class="form w-100 mt-3">
       <div class="formGroup">
         <label>Topic *</label>
@@ -81,7 +83,6 @@ export default defineComponent({
     search() {
       // formValidation
       let formErr = false;
-      debugger
 
       if(!this.locationadded) {
         formErr = true;

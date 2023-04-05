@@ -260,3 +260,15 @@ input, .btn {
         }
     }
 }
+
+@media only screen and (max-width: 600px) {
+    .search-box, .result-box {
+        width: 19rem;
+        >div {
+            width: 100%;
+        };
+        h3:after {
+            width: 19rem;
+        }
+    }
+}

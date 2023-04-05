@@ -20,7 +20,6 @@ export const store = createStore<State>({
   },
   actions: {
       storePlaces ({ commit, state }, places) {
-        debugger
         commit('mutatePlaces', places)
     }
   }
