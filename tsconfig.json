@@ -3,6 +3,7 @@
     "target": "esnext",
     "module": "esnext",
     "strict": true,
+    "strictNullChecks": false,
     "jsx": "preserve",
     "moduleResolution": "node",
     "skipLibCheck": true,
@@ -13,7 +14,12 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
-      "webpack-env"
+      "webpack-env",
+      "googlemaps"
+    ],
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types"
     ],
     "paths": {
       "@/*": [
