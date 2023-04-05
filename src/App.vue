@@ -1,5 +1,5 @@
 <template>
-  <div class="h-100vh flex mt-10 ">
+  <div class="layout flex">
     <router-view/>
   </div>
 </template>

@@ -5,7 +5,7 @@
                 <h3 class="flex flex-col items-start m-0"><b>Search results</b></h3>
                 <div class="flex flex-col justify-start items-start mt-10" v-if="places.length">
                     <div v-for="place in places" :key="place.place_id" class="mt-3 flex- jistify-start items-start" >
-                       <li style="{text-align: start;}"> {{ place.name }} </li>
+                       <li> {{ place.name }} </li>
                     </div>
                 </div>
             </div>

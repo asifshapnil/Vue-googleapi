@@ -1,5 +1,5 @@
 <template>
-  <div class="home flex justify-center items-center h-100vh w-100">
+  <div class="home flex justify-center items-center w-100">
     <SearchForm></SearchForm>
   </div>
 </template>
