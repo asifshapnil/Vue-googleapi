@@ -1,8 +1,7 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-  </nav>
-  <router-view/>
+  <div class="h-100vh flex mt-10 ">
+    <router-view/>
+  </div>
 </template>
 
 <style lang="scss">

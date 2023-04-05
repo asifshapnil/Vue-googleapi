@@ -1,47 +1,48 @@
 <template>
-  <div class="form p-10">
-    <div class="formGroup">
-      <label>Topic</label>
-      <input id="topic" type="text" v-model="topic">
-    </div>
-    <div class="formGroup mt-10">
-      <label> Location</label>
-      <input type="text" v:model="location" ref="location" />
-    </div>
-    <div class="formGroup mt-10">
-      <label>Distance</label>
-      <input id="distance" type="number" v-model.number="distance">
-    </div>
-    <div class="mt-10">
-      <button @click="search">Search</button>
+  <div class="flex flex-col search-box justify-start items-start">
+    <h3><b>Search your prefered area based on a criteria</b></h3>
+    <div class="form w-100 mt-3">
+      <div class="formGroup">
+        <label>Topic *</label>
+        <input id="topic" type="text" placeholder="Enter a topic" v-model="topic">
+        <div v-if="topicErr" class="mt-3 error-text">{{ topicErr }}</div>
+      </div>
+      <div class="formGroup mt-10">
+        <label> Location *</label>
+        <input type="text" v:model="location" ref="location" />
+        <div v-if="locationErr" class="mt-3 error-text">{{ locationErr }}</div>
+      </div>
+      <div class="formGroup mt-10">
+        <label>Distance *</label>
+        <input id="distance" type="number" placeholder="Enter a distance" v-model.number="distance">
+        <div v-if="distanceErr" class="mt-3 error-text">{{ distanceErr }}</div>
+      </div>
+      <div class="mt-10">
+        <button class="btn" @click="search">Search</button>
+      </div>
     </div>
   </div>
 
-
-  <!-- <ul v-if="places.length">
-    <li v-for="place in places" :key="place.place_id">
-      {{ place.name }}
-    </li>
-  </ul> -->
 </template>
 
 <script lang="ts">
-import Mixin from '@/mixin/mixin';
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'SearchForm',
-  mixins: [Mixin],
   data() {
     return {
-      topic: '',
-      location: '',
-      distance: '',
+      topic: null,
+      topicErr: null,
+      location: null,
+      locationErr: null,
+      locationadded: null,
+      distance: null,
+      distanceErr: null,
       lat: null,
       lng: null,
       autocompleteService: null,
       placesService: null,
-      places: []
     };
   },
   mounted() {
@@ -73,10 +74,29 @@ export default defineComponent({
     async initLocationSearch() {
       let autocomplete = new window.google.maps.places.Autocomplete(this.$refs.location as any);
       const placeLatLng: any = await this.searchLocation(autocomplete);
+      this.locationadded = true;
       this.lat = placeLatLng.lat;
       this.lng = placeLatLng.lng
     },
     search() {
+      // formValidation
+      let formErr = false;
+      debugger
+
+      if(!this.locationadded) {
+        formErr = true;
+        this.locationErr = 'Location is required **';
+      }
+      if(!this.topic) {
+        formErr = true;
+        this.topicErr = 'Topic is required **';
+      }
+      if(!this.distance) {
+        formErr = true;
+        this.distanceErr = 'Distance is required **';
+      }
+      if(formErr) return;
+
       var location = new window.google.maps.LatLng(this.lat, this.lng);
 
       const request = {
@@ -86,14 +106,40 @@ export default defineComponent({
       };
 
       this.placesService.textSearch(request, (results: any, status: any) => {
-        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-          this.results = results;
+        if (status === window.google.maps.places.PlacesServiceStatus.OK) {          
+          this.$store.dispatch('storePlaces', results);
+          setTimeout(() => {
+            this.$router.push('results');            
+          }, 500);
         } else {
-          this.results = [];
+          this.$store.dispatch('storePlaces', []);
         }
       });
     },
 
+  },
+  watch: {
+    'locationadded'(newValue) {
+      if(newValue) {
+        this.locationErr = null;
+      } else {
+        this.locationErr = 'Location is required';
+      }
+    },
+    'topic'(newValue) {
+      if(newValue) {
+        this.topicErr = null;
+      } else {
+        this.topicErr = 'Tpoic is required';
+      }
+    },
+    'distance'(newValue) {
+      if(newValue) {
+        this.distanceErr = null;
+      } else {
+        this.locationErr = 'Distance is required';
+      }
+    },
   }
 });
 </script>
